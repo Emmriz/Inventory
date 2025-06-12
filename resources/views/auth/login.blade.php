@@ -1,7 +1,7 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    <p class="text-white mb-4 text-center">Only authorised users are allowed</p>
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
