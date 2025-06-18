@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
             <!-- Header -->
             <div class="p-4 border-b border-gray-700">
                 <div class="flex items-center justify-between">
-                    <h1 x-show="!sidebarCollapsed" class="text-xl font-bold">Inventory Pro</h1>
+                    <h1 x-show="!sidebarCollapsed" class="text-xl font-bold"><img class="justify-center" src="{{ asset('newlogo.png') }}" alt="Description of image" width="130"></h1>
                     <button @click="sidebarCollapsed = !sidebarCollapsed" class="text-white hover:bg-gray-700 p-1 rounded">
                         <i :class="sidebarCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left'" class="text-sm"></i>
                     </button>
