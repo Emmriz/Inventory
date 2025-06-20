@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -11,7 +12,8 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        $ggccdept = Department::all();
+        return view('departments.index', compact('ggccdept'));
     }
 
     /**
@@ -19,7 +21,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('departments.create');
     }
 
     /**
@@ -27,7 +29,29 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'manager_id' => 'nullable|exists:users,id',
+        ]);
+
+        // Create the department
+       $result = Department::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'manager_id' => $request->manager_id,
+        ]);
+
+        // dd($result);
+
+        // Department::create($request->all());
+
+        // Redirect or return a response
+        return redirect()->route('departments.index')->with('success', 'Department created successfully.');
+        
+        // For debugging purposes, you can uncomment the line below
         //
+       return dd($request->all());
     }
 
     /**

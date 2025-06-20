@@ -75,7 +75,7 @@
                             <i class="fas fa-box"></i>
                             <span x-show="!sidebarCollapsed">Items</span>
                         </a></li>
-                        <li><a href="{{ route('my-department') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('my-department') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
+                        <li><a href="{{ route('departments.index') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('my-department') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
                             <i class="fas fa-building"></i>
                             <span x-show="!sidebarCollapsed">My Department</span>
                         </a></li>

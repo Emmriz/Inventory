@@ -6,10 +6,10 @@
 <div class="space-y-6">
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Items Management</h1>
-        <button onclick="openModal('addItemModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+        <a href="{{route('items.create')}}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
             <i class="fas fa-plus mr-2"></i>
             Add Item
-        </button>
+        </a>
     </div>
 
     <!-- Filters -->
@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($items ?? [] as $item)
+                @forelse($items as $item)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">

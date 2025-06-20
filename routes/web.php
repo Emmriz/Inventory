@@ -1,66 +1,77 @@
 <?php
 
-// use App\Http\Controllers\ProfileController;
-// use Illuminate\Support\Facades\Route;
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// require __DIR__.'/auth.php';
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Routing\RouteAction;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('auth/login');
-});
+// Authentication routes (Laravel Breeze/UI handles these)
+Auth::routes();
 
-Route::middleware('auth')->group(function () {
+// Dashboard route
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    Route::get('/items', function () {
-    return view('items');
-});
-    
-    //Items routes
-    Route::resource('items', ItemController::class);
-    
-    // Admin only routes
-    Route::middleware('auth','admin')->group(function () {
-        Route::resource('departments', DepartmentController::class);
-        Route::resource('users', UserController::class);
-        Route::get('/reports', function () {
-            return view('reports');
-        })->name('reports');
-        Route::get('/settings', function () {
-            return view('settings');
-        })->name('settings');
-    });
-    
-    // User routes
-    Route::get('/my-department', function () {
-        return view('my-department');
-    })->name('my-department');
 });
 
-Route::middleware('auth', 'admin')->group(function () {
+// Items routes - accessible by all authenticated users
+Route::middleware(['auth'])->group(function () {
+    Route::get('/items', [ItemController::class, 'index'])->name('items.index');
+    Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+    Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
+    Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
+    Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
+});
+
+// Admin-only routes
+Route::middleware(['auth'])->group(function () {
+
+    // Departments
+    
+    // Route::resource('departments', DepartmentController::class);
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+    Route::get('/department/create',[DepartmentController::class, 'create'])->name('departments.create');
+    
+    Route::post('/department/store',[DepartmentController::class, 'store'])->name('departments.store');
+    
+    // Users
+    Route::resource('users', UserController::class);
+    
+    // Item deletion (admin only)
+    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
+});
+
+// Reports routes - accessible by all authenticated users
+Route::middleware(['auth'])->group(function () {
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/inventory', [ReportController::class, 'inventory'])->name('reports.inventory');
+    Route::get('/reports/low-stock', [ReportController::class, 'lowStock'])->name('reports.low-stock');
+    Route::get('/reports/department/{department}', [ReportController::class, 'department'])->name('reports.department');
+});
+
+// Settings routes - admin only
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+});
+
+// Profile- accessible by all authenticated users
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
