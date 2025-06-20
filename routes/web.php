@@ -18,7 +18,7 @@
 // });
 
 // require __DIR__.'/auth.php';
-
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DepartmentController;
@@ -31,12 +31,16 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/items', function () {
+    return view('items');
+});
     
-    // Items routes
+    //Items routes
     Route::resource('items', ItemController::class);
     
     // Admin only routes
-    Route::middleware('admin')->group(function () {
+    Route::middleware('auth','admin')->group(function () {
         Route::resource('departments', DepartmentController::class);
         Route::resource('users', UserController::class);
         Route::get('/reports', function () {
@@ -51,6 +55,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-department', function () {
         return view('my-department');
     })->name('my-department');
+});
+
+Route::middleware('auth', 'admin')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

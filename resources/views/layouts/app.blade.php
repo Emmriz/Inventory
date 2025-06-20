@@ -79,6 +79,8 @@
                             <i class="fas fa-building"></i>
                             <span x-show="!sidebarCollapsed">My Department</span>
                         </a></li>
+
+                        
                     @endif
                 </ul>
             </nav>
