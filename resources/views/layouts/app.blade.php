@@ -58,11 +58,11 @@
                             <i class="fas fa-users"></i>
                             <span x-show="!sidebarCollapsed">Users</span>
                         </a></li>
-                        <li><a href="{{ route('reports') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('reports') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
+                        <li><a href="{{ route('reports.index') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('reports') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
                             <i class="fas fa-chart-bar"></i>
                             <span x-show="!sidebarCollapsed">Reports</span>
                         </a></li>
-                        <li><a href="{{ route('settings') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('settings') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
+                        <li><a href="{{ route('settings.index') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('settings') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
                             <i class="fas fa-cog"></i>
                             <span x-show="!sidebarCollapsed">Settings</span>
                         </a></li>

@@ -34,11 +34,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     // Departments
-    
-    // Route::resource('departments', DepartmentController::class);
+
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
     Route::get('/department/create',[DepartmentController::class, 'create'])->name('departments.create');
-    
     Route::post('/department/store',[DepartmentController::class, 'store'])->name('departments.store');
     
     // Users
@@ -49,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Reports routes - accessible by all authenticated users
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','admin'])->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/inventory', [ReportController::class, 'inventory'])->name('reports.inventory');
     Route::get('/reports/low-stock', [ReportController::class, 'lowStock'])->name('reports.low-stock');
@@ -72,6 +70,3 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

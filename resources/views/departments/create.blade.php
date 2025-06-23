@@ -5,14 +5,14 @@
 @section('content')
 <div class="space-y-6">
 
-    <div class="min-h-screen flex items-center justify-center">
+    <div class="flex items-center justify-center">
         <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-sm">
             <div class="text-center">
-                
+                <p class="mt-2 text-gray-600">creation form</p>
                 </div>
                 
             
-                <p class="mt-2 text-gray-600">creation form</p>
+                
             <form method="POST" action="{{ route('departments.store') }}" class="space-y-6">
                 @csrf
                 
@@ -28,10 +28,11 @@
                 </div>
 
                 <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700">Items Description</label>
-                    <input id="description" type="textarea" name="description" value="{{ old('name') }}" required 
+                    <label for="description" class="block text-sm font-medium text-gray-700">Department Description</label>
+                    <textarea id="description" name="description" placeholder="Enter department description" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    {{-- <input type="textarea" name="description" value="{{ old('name') }}" required 
                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="Enter department description">
+                           placeholder="Enter department description"> --}}
                     @error('description')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
