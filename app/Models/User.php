@@ -22,6 +22,9 @@ class User extends Authenticatable
         'password',
         'role',
         'department_id',
+        'phone',
+        'status',
+        'last_login',
     ];
 
     /**
@@ -41,6 +44,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login' => 'datetime',
     ];
     
     public function department()
@@ -56,5 +60,10 @@ class User extends Authenticatable
     public function managedDepartment()
     {
         return $this->hasOne(Department::class, 'manager_id');
+    }
+
+    public function isActive()
+    {
+        return $this->status === 'active';
     }
 }
