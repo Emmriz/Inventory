@@ -21,7 +21,8 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('departments.create');
+        $departments = Department::all();
+        return view('items.create', compact('departments'));
     }
 
     /**
@@ -41,6 +42,8 @@ class DepartmentController extends Controller
             'description' => $request->description,
             'manager_id' => $request->manager_id,
         ]);
+
+        
 
         // dd($result);
 

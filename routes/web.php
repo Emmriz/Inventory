@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
     Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
     Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
+    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy')->middleware('admin');
 });
 
 // Admin-only routes
@@ -38,12 +39,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
     Route::get('/department/create',[DepartmentController::class, 'create'])->name('departments.create');
     Route::post('/department/store',[DepartmentController::class, 'store'])->name('departments.store');
+    Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('departments.show');
     
     // Users
     Route::resource('users', UserController::class);
     
     // Item deletion (admin only)
-    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
+    
 });
 
 // Reports routes - accessible by all authenticated users

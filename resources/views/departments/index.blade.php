@@ -28,10 +28,22 @@
             Add Department
         </button>
     </div>
+    @if (session('success'))
+    <div class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow z-50">
+        {{ session('success') }}
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('successMessage');
+            if (alert) alert.style.display = 'none';
+        }, 6000); // 6000ms = 6 seconds
+    </script>
+@endif
 
     <!-- Departments Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @forelse($departments ?? [] as $department)
+        @forelse($ggccdept as $department)
             <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center">
@@ -128,25 +140,32 @@
                 
                 <form action="{{ route('departments.store') }}" method="POST" class="space-y-4">
                     @csrf
+                    <input type="hidden" name="manager_id" value="{{ auth()->user()->id }}" required>
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Department Name</label>
-                        <input type="text" id="name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        @error('name')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                     
                     <div>
                         <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea id="description" name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        <textarea id="description" name="description" rows="3" required value="{{ old('description') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        @error('description')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                     
-                    <div>
+                    {{-- <div>
                         <label for="manager_id" class="block text-sm font-medium text-gray-700 mb-1">Manager</label>
                         <select id="manager_id" name="manager_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Select Manager</option>
-                            @foreach($users ?? [] as $user)
+                            @foreach($user as $users)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     
                     <div class="flex justify-end gap-3 pt-4">
                         <button type="button" onclick="closeModal('addDepartmentModal')" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">

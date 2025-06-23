@@ -1,4 +1,4 @@
-<div>Emi lo kan</div>@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Create Item')
 
