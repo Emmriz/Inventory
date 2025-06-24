@@ -47,10 +47,21 @@ class User extends Authenticatable
         'last_login' => 'datetime',
     ];
     
-    public function department()
+    //
+    // Give admins all permissions automatically
+     public function hasPermissionTo($permission, $guardName = null): bool
     {
-        return $this->belongsTo(Department::class);
-    }
+        if ($this->role === 'admin') {
+            return true;
+        }
+
+    return parent::hasPermissionTo($permission, $guardName);
+}
+
+public function department()
+{
+    return $this->belongsTo(Department::class);
+}
 
     public function isAdmin()
     {
