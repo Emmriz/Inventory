@@ -7,18 +7,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('newlogo.png') }}" type="image/png">
     <style>
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-gray-50 overflow-hidden">
+<body class="bg-gray-50 ">
     <div class="flex h-screen" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
         <!-- Sidebar -->
         <div :class="sidebarCollapsed ? 'w-16' : 'w-64'" class="bg-gray-900 text-white h-screen flex flex-col transition-all duration-300">
             <!-- Header -->
             <div class="p-4 border-b border-gray-700">
                 <div class="flex items-center justify-between">
-                    <h1 x-show="!sidebarCollapsed" class="text-xl font-bold"><img class="justify-center" src="{{ asset('newlogo.png') }}" alt="Description of image" width="130"></h1>
+                    <h1 x-show="!sidebarCollapsed" class="text-xl font-bold"><img class="justify-center" src="{{ asset('newlogo.png') }}" alt="Description of image" width="150"></h1>
                     <button @click="sidebarCollapsed = !sidebarCollapsed" class="text-white hover:bg-gray-700 p-1 rounded">
                         <i :class="sidebarCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left'" class="text-sm"></i>
                     </button>
@@ -86,7 +87,7 @@
             </nav>
 
             <!-- Logout -->
-            <div class="p-4 border-t border-gray-700">
+            <div class="p-4 border-t bg-gray-900 border-gray-700">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="w-full flex items-center space-x-3 p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-colors">
@@ -98,7 +99,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col">
             <!-- Header -->
             <header class="bg-white border-b border-gray-200 px-6 py-4">
                 <div class="flex items-center justify-between">

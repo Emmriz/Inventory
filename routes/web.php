@@ -27,8 +27,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/items', [ItemController::class, 'store'])->name('items.store');
     Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
     Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
-    Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
-    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy')->middleware('admin');
+    Route::put('/items/{id}', [ItemController::class, 'update'])->name('items.update');
+    Route::delete('/items/{id}', [ItemController::class, 'destroy'])->name('items.destroy')->middleware('admin');
+
 
     // Departments
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');

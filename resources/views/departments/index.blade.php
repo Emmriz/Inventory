@@ -21,6 +21,31 @@
 
 @section('content')
 <div class="space-y-6">
+    <!--START Success/Error Messages -->
+    @if(session('success'))
+        <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="closeMessage('successMessage')">
+                <svg class="fill-current h-6 w-6 text-green-500" role="button" viewBox="0 0 20 20">
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                </svg>
+            </span>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div id="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ session('error') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="closeMessage('errorMessage')">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" viewBox="0 0 20 20">
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                </svg>
+            </span>
+        </div>
+    @endif
+    <!-- END Success/Error Messages -->
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Departments Management</h1>
         <button onclick="openModal('addDepartmentModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
@@ -28,18 +53,6 @@
             Add Department
         </button>
     </div>
-    @if (session('success'))
-    <div class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow z-50">
-        {{ session('success') }}
-    </div>
-
-    <script>
-        setTimeout(() => {
-            const alert = document.getElementById('successMessage');
-            if (alert) alert.style.display = 'none';
-        }, 6000); // 6000ms = 6 seconds
-    </script>
-@endif
 
     <!-- Departments Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

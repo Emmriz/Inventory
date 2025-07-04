@@ -228,7 +228,7 @@
     </div> --}}
 
     <div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden justify-center items-center">
-    <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="flex items-center justify-center min-h-screen pl-52">
         <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
