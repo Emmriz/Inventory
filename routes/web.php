@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HodController;
 use Illuminate\Routing\RouteAction;
 use Illuminate\Support\Facades\Auth;
 

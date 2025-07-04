@@ -55,6 +55,7 @@
                             <i class="fas fa-building"></i>
                             <span x-show="!sidebarCollapsed">Departments</span>
                         </a></li>
+                        
                         <li><a href="{{ route('users.index') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('users.*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
                             <i class="fas fa-users"></i>
                             <span x-show="!sidebarCollapsed">Users</span>
