@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -13,7 +14,8 @@ class DepartmentController extends Controller
     public function index()
     {
         $ggccdept = Department::all();
-        return view('departments.index', compact('ggccdept'));
+         $users = User::all();
+        return view('departments.index', compact('ggccdept', 'users'));
     }
 
     /**
@@ -22,7 +24,11 @@ class DepartmentController extends Controller
     public function create()
     {
         $departments = Department::all();
-        return view('items.create', compact('departments'));
+         $users = User::all();
+        return view('items.create', compact('departments', 'users'));
+
+       
+       
     }
 
     /**
@@ -43,18 +49,11 @@ class DepartmentController extends Controller
             'manager_id' => $request->manager_id,
         ]);
 
-        
-
-        // dd($result);
-
-        // Department::create($request->all());
-
         // Redirect or return a response
-        return redirect()->route('departments.index')->with('success', 'Department created successfully.');
-        
+        return redirect()->route('departments.index');
         // For debugging purposes, you can uncomment the line below
         //
-       return dd($request->all());
+    //    return dd($request->all());
     }
 
     /**

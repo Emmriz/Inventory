@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
     Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
     Route::put('/items/{id}', [ItemController::class, 'update'])->name('items.update');
-    Route::delete('/items/{id}', [ItemController::class, 'destroy'])->name('items.destroy')->middleware('admin');
+    Route::delete('/items/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
 
 
     // Departments
