@@ -36,11 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
     Route::get('/department/create',[DepartmentController::class, 'create'])->name('departments.create');
     Route::post('/department/store',[DepartmentController::class, 'store'])->name('departments.store')->middleware('admin');
+    // Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit')->middleware('admin');
     Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('departments.show');
-    Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit')->middleware('admin');
     Route::put('/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update')->middleware('admin');
     Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy')->middleware('admin');
-
 });
 
 // Admin-only routes

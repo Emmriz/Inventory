@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'Departments Management')
@@ -149,18 +150,18 @@
                     
                     <div>
                         <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea id="description" name="description" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('description') }}</textarea>
+                        <textarea id="description" name="description" rows="3" required value="{{ old('description') }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
                         @error('description')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
                     
                     <div>
-                        <label for="manager_id_select" class="block text-sm font-medium text-gray-700 mb-1">Manager</label>
-                        <select id="manager_id_select" name="manager_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <label for="manager_id" class="block text-sm font-medium text-gray-700 mb-1">Manager</label>
+                        <select id="manager_id" name="manager_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Select Manager</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @foreach($users as $users)
+                                <option value="{{ $users->id }}">{{ $users->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -230,6 +231,7 @@
     </div>
 </div>
 
+
 <!--Delete Confirmation Modal -->
 <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
@@ -251,6 +253,7 @@
     </div>
 </div>
 
+
 <script>
 function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
@@ -260,18 +263,24 @@ function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
 }
 
-function closeMessage(messageId) {
-    document.getElementById(messageId).classList.add('hidden');
+function openEditModal(departmentId) {
+    // Implementation for editing department
+    console.log('Edit department:', departmentId);
+}
+
+function viewDepartment(departmentId) {
+    // Implementation for viewing department details
+    console.log('View department:', departmentId);
 }
 
 //Edit Department Functionality
 function openEditModal(departmentId) {
-    fetch(`/departments/${departmentId}`)
+    fetch(/departments/${departmentId})
         .then(response => response.json())
         .then(department => {
-            console.log('Fetched data:', department);
+            console.log('Fetched data:', department);// to get the department data
             
-            document.getElementById('editDepartmentForm').action = `/departments/${department.id}`;
+            document.getElementById('editDepartmentForm').action = /departments/${department.id};
             document.getElementById('edit_department_id').value = department.id;
             document.getElementById('edit_name').value = department.name;
             document.getElementById('edit_description').value = department.description;
@@ -289,15 +298,19 @@ function openEditModal(departmentId) {
         });
 }
 
+
+
 //Delete Department Functionality
 function openDeleteModal(departmentId) {
-    const form = document.getElementById('deleteForm');
-    form.action = `/departments/${departmentId}`;
-    document.getElementById('deleteModal').classList.remove('hidden');
-}
+        const form = document.getElementById('deleteForm');
+        form.action = /departments/${departmentId};
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
 
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.add('hidden');
-}
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    
 </script>
 @endsection
