@@ -9,23 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description')->nullable();
             $table->string('sku')->unique();
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
             $table->integer('quantity')->default(0);
-            $table->integer('min_quantity')->default(0);
-            $table->decimal('price', 10, 2);
-            $table->unsignedBigInteger('department_id');
-            // $table->enum('status', ['active', 'inactive', 'low_stock'])->default('active');
             $table->enum('status', ['in_use', 'not_in_use', 'damaged'])->default('in_use');
-
             $table->timestamps();
-            
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
         });
     }
 

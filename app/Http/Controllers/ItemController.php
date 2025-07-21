@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Department;
 
 use App\Models\Item;
+use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -14,70 +13,44 @@ class ItemController extends Controller
      */
     public function index()
     {
-        
-    
-    $departments = Department::all(); 
-    $items = Item::all(); // <-- Add this
-
-    return view('items.index', compact('departments', 'items'));
+        $items = Item::with('department')->orderBy('created_at', 'desc')->get();
+        $departments = Department::all();
+        return view('items.index', compact('items', 'departments'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-   public function create()
-{
-    $departments = Department::all();
-    $items = Item::all(); // Add this line
-    return view('items.index', compact('departments', 'items'));
-}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'sku' => 'nullable|string|max:100',
-            'description' => 'nullable|string|max:1000',
+            'sku' => 'required|string|max:255|unique:items',
             'department_id' => 'required|exists:departments,id',
-            'quantity' => 'required|integer|min:1',
-            'min_quantity' => 'required|integer',
+            'quantity' => 'required|integer|min:0',
+            'status' => 'required|in:in_use,not_in_use,damaged',
         ]);
 
-        // Create the item
-        Item::create([
-            'name' => $request->name,
-            'sku' => $request->sku,
-            'description' => $request->description,
-            'department_id' => $request->department_id,
-            'quantity' => $request->quantity,
-            'min_quantity' => $request->min_quantity,
-            'created_by' => optional(Auth::user())->id, // Handles unauthenticated users safely
-            'updated_by' => optional(Auth::user())->id, // Handles unauthenticated users safely
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        Item::create($validated);
 
-        // Redirect or return a response
-        return redirect()->route('items.index');
+        return redirect()->route('items.index')->with('success', 'Item added successfully.');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource for editing.
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $item = Item::with('department')->findOrFail($id);
+        
+        return response()->json([
+            'id' => $item->id,
+            'name' => $item->name,
+            'sku' => $item->sku,
+            'department_id' => $item->department_id,
+            'quantity' => $item->quantity,
+            'status' => $item->status,
+        ]);
     }
 
     /**
@@ -85,7 +58,19 @@ class ItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $item = Item::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:255|unique:items,sku,' . $item->id,
+            'department_id' => 'required|exists:departments,id',
+            'quantity' => 'required|integer|min:0',
+            'status' => 'required|in:in_use,not_in_use,damaged',
+        ]);
+
+        $item->update($validated);
+
+        return redirect()->route('items.index')->with('success', 'Item updated successfully.');
     }
 
     /**
@@ -93,8 +78,14 @@ class ItemController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $item = Item::find($id);
 
-    
+        if (!$item) {
+            return redirect()->route('items.index')->with('error', 'Item not found.');
+        }
+
+        $item->delete();
+
+        return redirect()->route('items.index')->with('success', 'Item deleted successfully.');
+    }
 }

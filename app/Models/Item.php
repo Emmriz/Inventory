@@ -10,29 +10,29 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'sku', 'quantity', 
-        'min_quantity', 'price', 'department_id', 'status'
+        'name',
+        'sku', 
+        'department_id',
+        'quantity',
+        'status'
+    ];
+
+    protected $casts = [
+        'quantity' => 'integer',
     ];
     
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
-    
-    public function transactions()
+
+    public function getStatusLabelAttribute()
     {
-        return $this->hasMany(InventoryTransaction::class);
-    }
-    
-    // Auto-update status based on quantity
-    protected static function booted()
-    {
-        static::saving(function ($item) {
-            if ($item->quantity <= $item->min_quantity) {
-                $item->status = 'low_stock';
-            } elseif ($item->status === 'low_stock' && $item->quantity > $item->min_quantity) {
-                $item->status = 'active';
-            }
-        });
+        return match($this->status) {
+            'in_use' => 'In Use',
+            'not_in_use' => 'Not-In use',
+            'damaged' => 'Damaged',
+            default => 'Unknown'
+        };
     }
 }
