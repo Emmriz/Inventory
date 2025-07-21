@@ -4,6 +4,32 @@
 
 @section('content')
     <div class="space-y-6">
+
+        <!-- Success/Error Messages -->
+    @if(session('success'))
+        <div id="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="closeMessage('successMessage')">
+                <svg class="fill-current h-6 w-6 text-green-500" role="button" viewBox="0 0 20 20">
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                </svg>
+            </span>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div id="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline">{{ session('error') }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="closeMessage('errorMessage')">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" viewBox="0 0 20 20">
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                </svg>
+            </span>
+        </div>
+    @endif
+
         <div class="flex justify-between items-center">
             <h1 class="text-3xl font-bold text-gray-900">Users Management</h1>
             <button onclick="openModal('addUserModal')"
@@ -228,7 +254,7 @@
     </div> --}}
 
     <div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden justify-center items-center">
-    <div class="flex items-center justify-center min-h-screen pl-52">
+        <div class="flex items-center justify-center min-h-screen pl-52">
         <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
@@ -317,8 +343,8 @@
                 </form>
             </div>
         </div>
+        </div>
     </div>
-</div>
 
 
     <!-- Edit User Modal -->
