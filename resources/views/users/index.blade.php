@@ -116,6 +116,12 @@
                                     class="border border-gray-300 hover:bg-gray-50 px-3 py-1 rounded text-sm">
                                     <i class="fas fa-shield-alt text-xs mr-1"></i>Permissions
                                 </button>
+                                @if(auth()->user()->role === 'admin')
+                                <button onclick="openDeleteModal({{ $user->id }}, '{{ $user->name }}')" 
+                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                    <i class="fas fa-trash mr-1"></i>Delete
+                                </button>
+                            @endif
                             </td>
                         </tr>
                     @empty
@@ -580,6 +586,37 @@
         </div>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+<div id="deleteUserModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <i class="fas fa-exclamation-triangle text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Delete User</h3>
+            <p class="text-sm text-gray-500 mb-4">
+                Are you sure you want to delete "<span id="deleteUserName" class="font-medium"></span>"? 
+                This action cannot be undone.
+            </p>
+            
+            <form id="deleteUserForm" method="POST" class="inline">
+                @csrf
+                @method('DELETE')
+                <div class="flex justify-center space-x-3">
+                    <button type="button" onclick="closeModal('deleteUserModal')" 
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md">
+                        Delete User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     <script>
         function openModal(modalId) {
             document.getElementById(modalId).classList.remove('hidden');
@@ -637,7 +674,11 @@
             // Open modal
             openModal('permissionsModal');
         }
-
+            function openDeleteModal(userId, userName) {
+    document.getElementById('deleteUserName').textContent = userName;
+    document.getElementById('deleteUserForm').action = `/users/${userId}`;
+    openModal('deleteUserModal');
+}
         // Form validation
         document.getElementById('editUserForm').addEventListener('submit', function(e) {
             const password = document.getElementById('edit_password').value;

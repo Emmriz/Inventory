@@ -89,7 +89,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['message' => 'User deleted successfully']);
+        return redirect()->back()->with('success', 'User deleted successfully.');
     }
     //Manage user permissions
     public function updatePermissions(Request $request, $id)
