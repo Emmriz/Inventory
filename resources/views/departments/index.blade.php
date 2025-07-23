@@ -37,99 +37,72 @@
         </button>
     </div>
 
-    <!-- Departments Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @forelse($ggccdept as $department)
-            <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="flex items-center">
-                        <i class="fas fa-building text-blue-500 text-2xl mr-3"></i>
-                        <h3 class="text-lg font-semibold text-gray-900">{{ $department->name }}</h3>
-                    </div>
-                    <button onclick="openEditModal('{{ $department->id }}')" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </div>
-                
-                <p class="text-gray-600 mb-4">{{ $department->description }}</p>
-                
-                <div class="space-y-2">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-500">Manager:</span>
-                        <span class="font-medium">{{ $department->manager->name ?? 'Not assigned' }}</span>
-                    </div>
-                    
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-users text-sm mr-1"></i>
-                            {{ $department->users_count ?? 0 }} members
+        <!-- Main Content -->
+       
+            <!-- Departments Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($departments as $department)
+                    <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-building text-blue-500 mr-3 text-xl"></i>
+                                <h3 class="text-lg font-semibold text-gray-900">{{ $department->name }}</h3>
+                            </div>
+                            {{-- <button onclick="openEditModal({{ $department->id }})" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-edit"></i>
+                            </button> --}}
+                            <button 
+    onclick="openEditModal(this)" 
+    data-id="{{ $department->id }}"
+    data-name="{{ $department->name }}"
+    data-description="{{ $department->description }}"
+    data-manager-id="{{ $department->manager_id }}"
+    class="text-gray-400 hover:text-gray-600"
+>
+    <i class="fas fa-edit"></i>
+</button>
+                        
                         </div>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-box text-sm mr-1"></i>
-                            {{ $department->items_count ?? 0 }} items
+                        
+                        <p class="text-gray-600 mb-4">{{ $department->description }}</p>
+                        
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-500">Manager:</span>
+                                <span class="font-medium">{{ $department->manager->name ?? 'Not assigned' }}</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-users mr-1"></i>
+                                    {{ $department->members_count }} members
+                                </div>
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-box mr-1"></i>
+                                    {{ $department->items_count }} items
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-200 flex gap-2">
+                            <a href="{{ route('departments.show', $department->id) }}" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-center transition-colors">
+                                View Details
+                            </a>
+                            <button onclick="openDeleteModal({{ $department->id }})" class="bg-red-200 hover:bg-red-200 text-red-600 px-3 py-2 rounded-md transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mt-4 pt-4 border-t border-gray-200 flex gap-2">
-                    <button onclick="openEditModal('{{ $department->id }}')" class="flex-1 border border-gray-300 hover:bg-gray-50 px-3 py-2 rounded text-sm">
-                        View Details
-                    </button>
-
-                    <!-- Delete Button -->
-                     <button onclick="openDeleteModal('{{ $department->id }}')" class="border border-red-300 text-red-600 hover:bg-red-50 px-3 py-2 rounded text-sm">
-                        <i class="fas fa-trash"></i>
-                     </button>
-                </div>
+                @endforeach
             </div>
-        @empty
-            <!-- Sample data when no departments exist -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="flex items-center">
-                        <i class="fas fa-building text-blue-500 text-2xl mr-3"></i>
-                        <h3 class="text-lg font-semibold text-gray-900">Information Technology</h3>
-                    </div>
-                    <button class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </div>
-                <p class="text-gray-600 mb-4">Manages all IT infrastructure and software</p>
-                <div class="space-y-2">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-500">Manager:</span>
-                        <span class="font-medium">John Smith</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-users text-sm mr-1"></i>
-                            12 users
-                        </div>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-box text-sm mr-1"></i>
-                            156 items
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-200 flex gap-2">
-                    <button class="flex-1 border border-gray-300 hover:bg-gray-50 px-3 py-2 rounded text-sm">
-                        View Details
-                    </button>
-                    <button class="border border-red-300 text-red-600 hover:bg-red-50 px-3 py-2 rounded text-sm">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        @endforelse
-    </div>
+        
 </div>
 
-<!-- Add Department Modal -->
-<div id="addDepartmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-lg max-w-md w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
+    <!-- Add Department Modal -->
+    <div id="addDepartmentModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-medium text-gray-900">Add Department</h3>
                     <button onclick="closeModal('addDepartmentModal')" class="text-gray-400 hover:text-gray-600">
                         <i class="fas fa-times"></i>
@@ -138,38 +111,36 @@
                 
                 <form action="{{ route('departments.store') }}" method="POST" class="space-y-4">
                     @csrf
-                    <input type="hidden" name="manager_id" value="{{ auth()->user()->id }}" required>
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Department Name</label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        @error('name')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <label for="name" class="block text-sm font-medium text-gray-700">Department Name</label>
+                        <input type="text" id="name" name="name" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    
+
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea id="description" name="description" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('description') }}</textarea>
-                        @error('description')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" name="description" required rows="3"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
                     </div>
-                    
+
                     <div>
-                        <label for="manager_id_select" class="block text-sm font-medium text-gray-700 mb-1">Manager</label>
-                        <select id="manager_id_select" name="manager_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <label for="manager_id" class="block text-sm font-medium text-gray-700">Manager</label>
+                        <select id="manager_id" name="manager_id" 
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Select Manager</option>
-                            @foreach($users as $user)
+                             @foreach($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    
-                    <div class="flex justify-end gap-3 pt-4">
-                        <button type="button" onclick="closeModal('addDepartmentModal')" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" onclick="closeModal('addDepartmentModal')" 
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
                             Cancel
                         </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        <button type="submit" 
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
                             Add Department
                         </button>
                     </div>
@@ -177,38 +148,38 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Department Modal -->
-<div id="editDepartmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-    <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-lg max-w-md w-full">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
+    <!-- Edit Department Modal -->
+    <div id="editDepartmentModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-medium text-gray-900">Edit Department</h3>
                     <button onclick="closeModal('editDepartmentModal')" class="text-gray-400 hover:text-gray-600">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-
+                
                 <form id="editDepartmentForm" method="POST" class="space-y-4">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" id="edit_department_id" name="department_id">
-
+                    
                     <div>
-                        <label for="edit_name" class="block text-sm font-medium text-gray-700 mb-1">Department Name</label>
-                        <input type="text" id="edit_name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <label for="edit_name" class="block text-sm font-medium text-gray-700">Department Name</label>
+                        <input type="text" id="edit_name" name="name" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div>
-                        <label for="edit_description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea id="edit_description" name="description" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        <label for="edit_description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="edit_description" name="description" required rows="3"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
                     </div>
 
                     <div>
-                        <label for="edit_manager_id" class="block text-sm font-medium text-gray-700 mb-1">Manager</label>
-                        <select id="edit_manager_id" name="manager_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <label for="edit_manager_id" class="block text-sm font-medium text-gray-700">Manager</label>
+                        <select id="edit_manager_id" name="manager_id" 
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                             <option value="">Select Manager</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -216,11 +187,13 @@
                         </select>
                     </div>
 
-                    <div class="flex justify-end gap-3 pt-4">
-                        <button type="button" onclick="closeModal('editDepartmentModal')" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" onclick="closeModal('editDepartmentModal')" 
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
                             Cancel
                         </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        <button type="submit" 
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
                             Update Department
                         </button>
                     </div>
@@ -228,76 +201,88 @@
             </div>
         </div>
     </div>
-</div>
 
-<!--Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-        <h2 class="text-lg font-semibold mb-4">Delete Department</h2>
-        <p class="text-gray-700">Are you sure you want to delete this department?</p>
-
-        <div class="mt-6 flex justify-end gap-2">
-            <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm">
-                Cancel
-            </button>
-            <form id="deleteForm" method="POST" class="inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm">
-                    Yes, Delete
-                </button>
-            </form>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteDepartmentModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Delete Department</h3>
+                <p class="text-sm text-gray-500 mb-6">
+                    Are you sure you want to delete this department? This action cannot be undone.
+                </p>
+                <div class="flex justify-center space-x-3">
+                    <button onclick="closeModal('deleteDepartmentModal')" 
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                        Cancel
+                    </button>
+                    <form id="deleteDepartmentForm" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" 
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-function openModal(modalId) {
-    document.getElementById(modalId).classList.remove('hidden');
-}
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
 
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
-}
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
 
-function closeMessage(messageId) {
-    document.getElementById(messageId).classList.add('hidden');
-}
+        function closeMessage(messageId) {
+            document.getElementById(messageId).classList.add('hidden');
+        }
 
-//Edit Department Functionality
-function openEditModal(departmentId) {
-    fetch(`/departments/${departmentId}`)
-        .then(response => response.json())
-        .then(department => {
-            console.log('Fetched data:', department);
-            
-            document.getElementById('editDepartmentForm').action = `/departments/${department.id}`;
-            document.getElementById('edit_department_id').value = department.id;
-            document.getElementById('edit_name').value = department.name;
-            document.getElementById('edit_description').value = department.description;
+        // function openEditModal(departmentId) {
+        //     fetch(`/departments/${departmentId}`)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             document.getElementById('edit_name').value = data.name;
+        //             document.getElementById('edit_description').value = data.description;
+        //             document.getElementById('edit_manager_id').value = data.manager_id || '';
+        //             document.getElementById('editDepartmentForm').action = `/departments/${departmentId}`;
+        //             openModal('editDepartmentModal');
+        //         });
+        // }
 
-            const managerSelect = document.getElementById('edit_manager_id');
-            for (let option of managerSelect.options) {
-                option.selected = (option.value == department.manager_id);
-            }
+        // function openDeleteModal(departmentId) {
+        //     document.getElementById('deleteDepartmentForm').action = `/departments/${departmentId}`;
+        //     openModal('deleteDepartmentModal');
+        // }
 
-            document.getElementById('editDepartmentModal').classList.remove('hidden');
-        })
-        .catch(error => {
-            alert('Failed to load department info');
-            console.error(error);
-        });
-}
 
-//Delete Department Functionality
-function openDeleteModal(departmentId) {
-    const form = document.getElementById('deleteForm');
-    form.action = `/departments/${departmentId}`;
-    document.getElementById('deleteModal').classList.remove('hidden');
-}
+        function openEditModal(button) {
+        const id = button.getAttribute('data-id');
+        const name = button.getAttribute('data-name');
+        const description = button.getAttribute('data-description');
+        const managerId = button.getAttribute('data-manager-id');
 
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.add('hidden');
-}
-</script>
+        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_description').value = description;
+        document.getElementById('edit_manager_id').value = managerId || '';
+        document.getElementById('editDepartmentForm').action = `/departments/${id}`;
+
+        openModal('editDepartmentModal');
+    }
+
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+    }
+    </script>
+
 @endsection

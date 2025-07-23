@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use App\Models\User;
+use App\Models\Member;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -13,22 +14,11 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $ggccdept = Department::all();
-         $users = User::all();
-        return view('departments.index', compact('ggccdept', 'users'));
-    }
+        $departments = Department::withCount(['members', 'items'])->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $departments = Department::all();
-         $users = User::all();
-        return view('items.create', compact('departments', 'users'));
+         $users = \App\Models\User::all(); // Add this line
 
-       
-       
+        return view('departments.index', compact('departments', 'users'));
     }
 
     /**
@@ -36,66 +26,42 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'required|string',
             'manager_id' => 'nullable|exists:users,id',
         ]);
 
-        // Create the department
-       $result = Department::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'manager_id' => $request->manager_id,
-        ]);
+        Department::create($validated);
 
-        // Redirect or return a response
-
-        return redirect()->route('departments.index')->with('success', 'Department added successfully.');
-        // For debugging purposes, you can uncomment the line below
-        //
-    //    return dd($request->all());
+        return redirect()->route('departments.index')->with('success', 'Department created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-public function show(string $id)
-{
-    $department = Department::findOrFail($id);
-
-    return response()->json([
-        'id' => $department->id,
-        'name' => $department->name,
-        'description' => $department->description,
-        'manager_id' => $department->manager_id,
-    ]);
-}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    
+    public function show(string $id)
+    {
+        $department = Department::with(['manager', 'members', 'items'])->findOrFail($id);
+        return view('departments.show', compact('department'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'required|string',
-        'manager_id' => 'nullable|exists:users,id',
-    ]);
+        $department = Department::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'manager_id' => 'nullable|exists:users,id',
+        ]);
 
-    $department = Department::findOrFail($id);
-    $department->update([
-        'name' => $request->name,
-        'description' => $request->description,
-        'manager_id' => $request->manager_id,
-    ]);
+        $department->update($validated);
 
-    return redirect()->route('departments.index')->with('success', 'Department updated successfully.');
+        return redirect()->route('departments.index')->with('success', 'Department updated successfully.');
     }
 
     /**
@@ -103,14 +69,10 @@ public function show(string $id)
      */
     public function destroy(string $id)
     {
-        $department = Department::find($id);
+        $department = Department::findOrFail($id);
+        $department->delete();
 
-    if (!$department) {
-        return redirect()->route('departments.index')->with('error', 'Department not found.');
+        return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
     }
 
-    $department->delete();
-
-    return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
     }
-}

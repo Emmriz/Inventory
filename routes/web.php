@@ -9,6 +9,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HodController;
+use App\Http\Controllers\MemberController;
 use Illuminate\Routing\RouteAction;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+// Members routes
+    Route::resource('members', MemberController::class)->only(['store', 'update', 'destroy']);
 
 // Items routes - accessible by all authenticated users
 Route::middleware(['auth'])->group(function () {
