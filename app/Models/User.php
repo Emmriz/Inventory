@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -47,21 +48,20 @@ class User extends Authenticatable
         'last_login' => 'datetime',
     ];
     
-    //
     // Give admins all permissions automatically
-     public function hasPermissionTo($permission, $guardName = null): bool
+    public function hasPermissionTo($permission, $guardName = null): bool
     {
         if ($this->role === 'admin') {
             return true;
         }
 
-    return parent::hasPermissionTo($permission, $guardName);
-}
+        return parent::hasPermissionTo($permission, $guardName);
+    }
 
-public function department()
-{
-    return $this->belongsTo(Department::class);
-}
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 
     public function isAdmin()
     {

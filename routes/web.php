@@ -10,6 +10,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HodController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\BorrowingController;
 use Illuminate\Routing\RouteAction;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,7 +60,9 @@ Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/users/department/{departmentId}', [UserController::class, 'byDepartment'])->name('users.by_department');
 Route::post('/users/{id}/last-login', [UserController::class, 'updateLastLogin'])->name('users.update_last_login');
-Route::put('/users/{id}/permissions', [UserController::class, 'updatePermissions'])->name('users.update_permissions');
+// Route::put('/users/{id}/permissions', [UserController::class, 'updatePermissions'])->name('users.update_permissions');
+Route::put('/users/{id}/permissions', [UserController::class, 'updatePermissions'])->name('users.permissions');
+Route::get('/users/{id}/permissions', [UserController::class, 'getPermissions'])->name('users.getPermissions');
    
 });
 
@@ -71,6 +74,13 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/reports/department/{department}', [ReportController::class, 'department'])->name('reports.department');
 });
 
+// Borrowings routes (Admin only)
+     Route::middleware('admin')->group(function () {
+        Route::resource('borrowings', App\Http\Controllers\BorrowingController::class)->except(['show', 'edit', 'update']);
+        Route::patch('/borrowings/{borrowing}/return', [App\Http\Controllers\BorrowingController::class, 'returnItem'])->name('borrowings.return');
+        Route::get('/borrowings/items-by-department/{department}', [App\Http\Controllers\BorrowingController::class, 'getItemsByDepartment'])->name('borrowings.items-by-department');
+    });
+    
 // Settings routes - admin only
 
 Route::middleware(['auth', 'admin'])->group(function () {

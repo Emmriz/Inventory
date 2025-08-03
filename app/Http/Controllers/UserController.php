@@ -7,23 +7,23 @@ use App\Models\User;
 use App\Models\Department;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
     // List all users
     public function index()
-{
-    $users = User::with('department')->get();
-    $departments = Department::all(); // Add this line
-    
-    return view('users.index', compact('users', 'departments'));
-}
-
+    {
+        $users = User::with('department')->get();
+        $departments = Department::all();
+        
+        return view('users.index', compact('users', 'departments'));
+    }
 
     // Show a single user
     public function show($id)
     {
-        $user = User::with(['department', 'managedDepartment'])->findOrFail($id);
+        $user = User::with(['department', 'managedDepartment', 'permissions'])->findOrFail($id);
         return response()->json($user);
     }
 
@@ -46,6 +46,17 @@ class UserController extends Controller
         unset($validated['password_confirmation']);
 
         $user = User::create($validated);
+
+        // Assign default permissions based on role
+        if ($validated['role'] === 'admin') {
+            $user->givePermissionTo(Permission::all());
+        } else {
+            $user->givePermissionTo([
+                'view_inventory',
+                'view_departments',
+                'view_reports'
+            ]);
+        }
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');
     }
@@ -76,6 +87,19 @@ class UserController extends Controller
 
         $user->update($validated);
 
+        // Update permissions if role changed
+        if (isset($validated['role'])) {
+            if ($validated['role'] === 'admin') {
+                $user->syncPermissions(Permission::all());
+            } else {
+                $user->syncPermissions([
+                    'view_inventory',
+                    'view_departments', 
+                    'view_reports'
+                ]);
+            }
+        }
+
         if ($request->expectsJson()) {
             return response()->json($user);
         }
@@ -91,22 +115,34 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
-    //Manage user permissions
+
+    // Manage user permissions
     public function updatePermissions(Request $request, $id)
-{
-    $user = User::findOrFail($id);
+    {
+        $user = User::findOrFail($id);
 
-    // Validate the incoming permissions array
-    $validated = $request->validate([
-        'permissions' => 'array|required',
-        'permissions.*' => 'string'
-    ]);
+        // Validate the incoming permissions array
+        $validated = $request->validate([
+            'permissions' => 'array|required',
+            'permissions.*' => 'string|exists:permissions,name'
+        ]);
 
-    // If you're using Spatie Laravel Permission:
-    $user->syncPermissions($validated['permissions']);
+        // Sync permissions for the user
+        $user->syncPermissions($validated['permissions']);
+        dd($user);
+        // return redirect()->back()->with('success', 'Permissions updated successfully for ' . $user->name);
+    }
 
-    return redirect()->back()->with('success', 'Permissions updated successfully.');
-}
+    // Get user permissions (for loading in modal)
+    public function getPermissions($id)
+    {
+        $user = User::with('permissions')->findOrFail($id);
+        return response()->json([
+            'user' => $user,
+            'permissions' => $user->permissions->pluck('name')->toArray(),
+            'all_permissions' => Permission::all()
+        ]);
+    }
 
     // (Optional) Get users by department
     public function byDepartment($departmentId)
