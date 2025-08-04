@@ -116,54 +116,32 @@
         <div class="bg-white p-6 rounded-lg shadow-sm border">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
             <div class="space-y-4">
-                @forelse($recentTransactionsList ?? [] as $transaction)
+               
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
                         <div>
-                            <p class="font-medium">{{ $transaction->item->name ?? 'Item #1234' }}</p>
-                            <p class="text-sm text-gray-600">Quantity: {{ $transaction->quantity > 0 ? '+' : '' }}{{ $transaction->quantity ?? '+10' }}</p>
+                            <img class="justify-center" src="{{ asset('dash2.jpg') }}" alt="Description of image" >
                         </div>
-                        <span class="text-sm text-gray-500">{{ $transaction->created_at->diffForHumans() ?? '2 hours ago' }}</span>
+                        
                     </div>
-                @empty
-                    @for($i = 1; $i <= 4; $i++)
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
-                            <div>
-                                <p class="font-medium">Item #{{ $i }}234</p>
-                                <p class="text-sm text-gray-600">Quantity: +10</p>
-                            </div>
-                            <span class="text-sm text-gray-500">2 hours ago</span>
-                        </div>
-                    @endfor
-                @endforelse
+                
+                        
+                   
             </div>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-sm border">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Low Stock Alerts</h3>
             <div class="space-y-4">
-                @forelse($lowStockItemsList ?? [] as $item)
+                
                     <div class="flex items-center justify-between p-3 bg-red-50 rounded border border-red-200">
                         <div>
-                            <p class="font-medium text-red-900">{{ $item->name }}</p>
-                            <p class="text-sm text-red-600">Only {{ $item->quantity }} units left</p>
+                            <img class="justify-center" src="{{ asset('dash1.jpg') }}" alt="Description of image" >
                         </div>
-                        <button class="border border-gray-300 hover:bg-gray-50 px-3 py-1 rounded text-sm font-medium">
-                            Reorder
-                        </button>
+                        
                     </div>
-                @empty
-                    @for($i = 1; $i <= 3; $i++)
-                        <div class="flex items-center justify-between p-3 bg-red-50 rounded border border-red-200">
-                            <div>
-                                <p class="font-medium text-red-900">Office Supplies #{{ $i }}</p>
-                                <p class="text-sm text-red-600">Only 5 units left</p>
-                            </div>
-                            <button class="border border-gray-300 hover:bg-gray-50 px-3 py-1 rounded text-sm font-medium">
-                                Reorder
-                            </button>
-                        </div>
-                    @endfor
-                @endforelse
+                
+                        
+                    
             </div>
         </div>
     </div>

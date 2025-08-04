@@ -40,7 +40,7 @@
             </div>
 
             <!-- Navigation -->
-            <nav class="flex-1 p-4">
+            <nav class="flex-1 p-4 bg-gray-900">
                 <ul class="space-y-2">
                     @if(auth()->user()->role === 'admin')
                         <li><a href="{{ route('dashboard') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
@@ -72,6 +72,7 @@
                             <i class="fas fa-cog"></i>
                             <span x-show="!sidebarCollapsed">Settings</span>
                         </a></li>
+
                     @else
                         <li><a href="{{ route('dashboard') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
                             <i class="fas fa-tachometer-alt"></i>
@@ -81,8 +82,11 @@
                             <i class="fas fa-box"></i>
                             <span x-show="!sidebarCollapsed">Items</span>
                         </a></li>
+                        <li><a href="{{ route('departments.index') }}" class="flex items-center space-x-3 p-3 rounded-lg {{ request()->routeIs('departments.*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} transition-colors">
+                            <i class="fas fa-building"></i>
+                            <span x-show="!sidebarCollapsed">Departments</span>
+                        </a></li>
                         
-
                         
                     @endif
                 </ul>
