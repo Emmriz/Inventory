@@ -31,7 +31,7 @@
     <!-- END Success/Error Messages -->
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Departments Management</h1>
-        <button onclick="openModal('addDepartmentModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+        <button onclick="openModal('addDepartmentModal')" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
             <i class="fas fa-plus mr-2"></i>
             Add Department
         </button>
@@ -85,7 +85,7 @@
                         </div>
                         
                         <div class="mt-4 pt-4 border-t border-gray-200 flex gap-2">
-                            <a href="{{ route('departments.show', $department->id) }}" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-center transition-colors">
+                            <a href="{{ route('departments.show', $department->id) }}" class="flex-1 bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md text-center transition-colors">
                                 View Details
                             </a>
                             <button onclick="openDeleteModal({{ $department->id }})" class="bg-red-200 hover:bg-red-200 text-red-600 px-3 py-2 rounded-md transition-colors">
@@ -136,11 +136,11 @@
 
                     <div class="flex justify-end space-x-3 pt-4">
                         <button type="button" onclick="closeModal('addDepartmentModal')" 
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-800 hover:bg-red-700 rounded-md">
                             Cancel
                         </button>
                         <button type="submit" 
-                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 rounded-md">
                             Add Department
                         </button>
                     </div>
@@ -189,11 +189,11 @@
 
                     <div class="flex justify-end space-x-3 pt-4">
                         <button type="button" onclick="closeModal('editDepartmentModal')" 
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-800 hover:bg-red-700 rounded-md">
                             Cancel
                         </button>
                         <button type="submit" 
-                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 rounded-md">
                             Update Department
                         </button>
                     </div>
@@ -244,22 +244,12 @@
             document.getElementById(messageId).classList.add('hidden');
         }
 
-        // function openEditModal(departmentId) {
-        //     fetch(`/departments/${departmentId}`)
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             document.getElementById('edit_name').value = data.name;
-        //             document.getElementById('edit_description').value = data.description;
-        //             document.getElementById('edit_manager_id').value = data.manager_id || '';
-        //             document.getElementById('editDepartmentForm').action = `/departments/${departmentId}`;
-        //             openModal('editDepartmentModal');
-        //         });
-        // }
-
-        // function openDeleteModal(departmentId) {
-        //     document.getElementById('deleteDepartmentForm').action = `/departments/${departmentId}`;
-        //     openModal('deleteDepartmentModal');
-        // }
+        // Function to open the delete confirmation modal
+        function openDeleteModal(departmentId) {
+            const form = document.getElementById('deleteDepartmentForm');
+            form.action = `/departments/${departmentId}`;
+            openModal('deleteDepartmentModal');
+        }
 
 
         function openEditModal(button) {

@@ -197,10 +197,10 @@
 
                         <div class="flex justify-end gap-3 pt-6">
                             <button type="button" onclick="closeModal('addUserModal')"
-                                class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                                class="px-4 py-2 text-white border bg-red-700 border-gray-300 rounded-md hover:bg-red-600">
                                 Cancel
                             </button>
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700">
                                 Add User
                             </button>
                         </div>
@@ -289,10 +289,10 @@
 
                         <div class="flex justify-end gap-3 pt-4">
                             <button type="button" onclick="closeModal('editUserModal')"
-                                class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                                class="px-4 py-2 text-white border bg-red-700 border-gray-300 rounded-md hover:bg-red-600">
                                 Cancel
                             </button>
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800">
                                 Update User
                             </button>
                         </div>
@@ -421,10 +421,10 @@
                                 </button>
                                 <div class="flex gap-3">
                                     <button type="button" onclick="closeModal('permissionsModal')"
-                                        class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                                        class="px-4 py-2 text-white bg-red-700 border border-gray-300 rounded-md hover:bg-red-600">
                                         Cancel
                                     </button>
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                    <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800">
                                         Update Permissions
                                     </button>
                                 </div>

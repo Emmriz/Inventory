@@ -34,7 +34,7 @@
             <h1 class="text-3xl font-bold text-gray-900">Item Borrowing Management</h1>
             @if(auth()->user()->role === 'admin')
                 <button onclick="openModal('borrowItemModal')"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+                    class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
                     <i class="fas fa-hand-holding mr-2"></i>
                     Borrow Item
                 </button>
@@ -104,7 +104,7 @@
                                         </form>
                                     @endif
                                     <button onclick="openDeleteModal({{ $borrowing->id }}, '{{ $borrowing->item->name ?? 'Item' }} - {{ $borrowing->borrower_name }}')" 
-                                            class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                            class="bg-red-800 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
                                         <i class="fas fa-trash mr-1"></i>Delete
                                     </button>
                                 @endif
@@ -189,10 +189,10 @@
 
                         <div class="flex justify-end gap-3 pt-4">
                             <button type="button" onclick="closeModal('borrowItemModal')"
-                                class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                                class="px-4 py-2 text-white border border-gray-300 rounded-md bg-red-800 hover:bg-red-700">
                                 Cancel
                             </button>
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-800">
                                 Borrow Item
                             </button>
                         </div>

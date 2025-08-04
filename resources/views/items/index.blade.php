@@ -31,7 +31,7 @@
 
     <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Items Management</h1>
-        <button onclick="openModal('addItemModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+        <button onclick="openModal('addItemModal')" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
             <i class="fas fa-plus mr-2"></i>
             Add Item
         </button>
@@ -88,12 +88,12 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <button onclick="openEditModal({{ $item->id }})" 
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+                                    class="bg-blue-900 hover:bg-blue-800 text-white px-3 py-1 rounded text-sm">
                                 <i class="fas fa-edit mr-1"></i>Edit
                             </button>
                             @if(auth()->user()->role === 'admin')
                                 <button onclick="openDeleteModal({{ $item->id }}, '{{ $item->name }}')" 
-                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                        class="bg-red-800 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
                                     <i class="fas fa-trash mr-1"></i>Delete
                                 </button>
                             @endif
@@ -163,11 +163,11 @@
 
                 <div class="flex justify-end space-x-3 pt-4">
                     <button type="button" onclick="closeModal('addItemModal')" 
-                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                            class="px-4 py-2 text-sm font-medium text-white bg-red-800 hover:bg-red-700 rounded-md">
                         Cancel
                     </button>
                     <button type="submit" 
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 rounded-md">
                         Add Item
                     </button>
                 </div>
@@ -232,11 +232,11 @@
 
                 <div class="flex justify-end space-x-3 pt-4">
                     <button type="button" onclick="closeModal('editItemModal')" 
-                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                            class="px-4 py-2 text-sm font-medium text-white bg-red-800 hover:bg-red-700 rounded-md">
                         Cancel
                     </button>
                     <button type="submit" 
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 rounded-md">
                         Update Item
                     </button>
                 </div>

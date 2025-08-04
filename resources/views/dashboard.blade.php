@@ -8,7 +8,7 @@
         <h1 class="text-3xl font-bold text-gray-900">
             Welcome back, {{ auth()->user()->name }}
         </h1>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+        <button class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
             Quick Add Item
         </button>
     </div>
@@ -23,7 +23,7 @@
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $totalItems ?? '1,247' }}</p>
                         <p class="text-sm mt-2 text-green-600">↑ 12% from last month</p>
                     </div>
-                    <div class="text-blue-500">
+                    <div class="text-blue-800">
                         <i class="fas fa-box text-2xl"></i>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $activeUsers ?? '34' }}</p>
                         <p class="text-sm mt-2 text-green-600">↑ 3% from last month</p>
                     </div>
-                    <div class="text-blue-500">
+                    <div class="text-blue-800">
                         <i class="fas fa-users text-2xl"></i>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $departments ?? '8' }}</p>
                         <p class="text-sm mt-2 text-green-600">↑ 0% from last month</p>
                     </div>
-                    <div class="text-blue-500">
+                    <div class="text-blue-800">
                         <i class="fas fa-building text-2xl"></i>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $lowStockItems ?? '23' }}</p>
                         <p class="text-sm mt-2 text-red-600">↓ 5% from last month</p>
                     </div>
-                    <div class="text-blue-500">
+                    <div class="text-blue-800">
                         <i class="fas fa-exclamation-triangle text-2xl"></i>
                     </div>
                 </div>
