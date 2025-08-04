@@ -12,6 +12,7 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
+
 <body class="bg-gray-50 ">
     <div class="flex h-screen" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
         <!-- Sidebar -->
