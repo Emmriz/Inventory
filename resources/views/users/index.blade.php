@@ -33,7 +33,7 @@
         <div class="flex justify-between items-center">
             <h1 class="text-3xl font-bold text-gray-900">Users Management</h1>
             <button onclick="openModal('addUserModal')"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium">
+                class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
                 <i class="fas fa-plus mr-2"></i>
                 Add User
             </button>
@@ -57,7 +57,7 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
+                                    <div class="w-8 h-8 bg-blue-900 rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
                                         {{ substr($user->name, 0, 1) }}
                                     </div>
                                     <div>
