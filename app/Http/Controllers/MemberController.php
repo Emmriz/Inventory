@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+
+    public function show($id)
+{
+    $member = Member::findOrFail($id);
+    return response()->json($member);
+}
     /**
      * Store a newly created resource in storage.
      */

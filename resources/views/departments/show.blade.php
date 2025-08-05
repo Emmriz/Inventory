@@ -11,12 +11,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-6">
                     <div>
-                        <a href="{{ route('departments.index') }}" class="text-blue-600 hover:text-blue-800 mb-2 inline-block">
+                        <a href="{{ route('departments.index') }}" class="text-blue-900 hover:text-blue-800 mb-2 inline-block">
                             <i class="fas fa-arrow-left mr-2"></i>Back to Departments
                         </a>
                         <h1 class="text-3xl font-bold text-gray-900">{{ $department->name }}</h1>
                     </div>
-                    <button onclick="openModal('addMemberModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center">
+                    <button onclick="openModal('addMemberModal')" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md flex items-center">
                         <i class="fas fa-user-plus mr-2"></i>
                         Add Member
                     </button>
@@ -172,11 +172,11 @@
 
                     <div class="flex justify-end space-x-3 pt-4">
                         <button type="button" onclick="closeModal('addMemberModal')" 
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-800 hover:bg-red-700 rounded-md">
                             Cancel
                         </button>
                         <button type="submit" 
-                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 rounded-md">
                             Add Member
                         </button>
                     </div>
@@ -227,11 +227,11 @@
 
                     <div class="flex justify-end space-x-3 pt-4">
                         <button type="button" onclick="closeModal('editMemberModal')" 
-                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-900 hover:bg-red-700 rounded-md">
                             Cancel
                         </button>
                         <button type="submit" 
-                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md">
+                                class="px-4 py-2 text-sm font-medium text-white bg-blue-900 hover:bg-blue-800 rounded-md">
                             Update Member
                         </button>
                     </div>

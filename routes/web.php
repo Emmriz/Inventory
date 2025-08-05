@@ -50,7 +50,6 @@ Route::middleware(['auth'])->group(function () {
 // Admin-only routes
 Route::middleware(['auth'])->group(function () {
 
-
         
    // Users routes
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -79,6 +78,11 @@ Route::middleware(['auth','admin'])->group(function () {
         Route::resource('borrowings', App\Http\Controllers\BorrowingController::class)->except(['show', 'edit', 'update']);
         Route::patch('/borrowings/{borrowing}/return', [App\Http\Controllers\BorrowingController::class, 'returnItem'])->name('borrowings.return');
         Route::get('/borrowings/items-by-department/{department}', [App\Http\Controllers\BorrowingController::class, 'getItemsByDepartment'])->name('borrowings.items-by-department');
+    });
+    
+    // Borrowings routes (Admin only)
+     Route::middleware('admin')->group(function () {
+        Route::get('/members/{id}', [MemberController::class, 'show']);
     });
     
 // Settings routes - admin only
