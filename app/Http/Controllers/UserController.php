@@ -14,7 +14,8 @@ class UserController extends Controller
     // List all users
     public function index()
     {
-        $users = User::with('department')->get();
+        // $users = User::with('department')->get();
+        $users = User::with('department')->paginate(10);
         $departments = Department::all();
         
         return view('users.index', compact('users', 'departments'));

@@ -115,7 +115,11 @@
                         </tr>
                     @endforelse
                 </tbody>
+                
             </table>
+            <div class="mt-6 px-6 py-6">
+                {{ $users->links() }}
+            </div>
         </div>
     </div>
 
