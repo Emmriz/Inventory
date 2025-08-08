@@ -84,6 +84,14 @@ Route::middleware(['auth','admin'])->group(function () {
      Route::middleware('admin')->group(function () {
         Route::get('/members/{id}', [MemberController::class, 'show']);
     });
+
+    Route::middleware('guest')->group(function () {
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+});
     
 // Settings routes - admin only
 
