@@ -16,7 +16,7 @@
 </head>
 <body class=" bg-slate-800">
     <div class="min-h-screen flex items-center justify-center">
-        <div class="max-w-md w-full space-y-3 p-5 bg-white rounded-lg shadow-md">
+        <div class="max-w-sm w-full space-y-3 p-5 bg-white rounded-lg shadow-md">
             <div class="text-center">
                 <h2 class="text-3xl font-bold text-blue-900">GGCCHQ INVENTORY</h2>
                 </div>
