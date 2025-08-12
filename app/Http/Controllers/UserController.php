@@ -2,162 +2,142 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Department;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Department;
 
 class UserController extends Controller
 {
-    // List all users
+    /**
+     * Display a listing of the users.
+     */
     public function index()
+{
+    $users = User::with('roles', 'permissions')->paginate(7);
+    $departments = Department::all();  // Fetch departments
+    return view('users.index', compact('users', 'departments'));
+}
+
+    /**
+     * Show the form for creating a new user.
+     */
+    public function create()
     {
-        // $users = User::with('department')->get();
-        $users = User::with('department')->paginate(9);
-        $departments = Department::all();
-        
-        return view('users.index', compact('users', 'departments'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('users.create', compact('roles', 'permissions'));
     }
 
-    // Show a single user
-    public function show($id)
-    {
-        $user = User::with(['department', 'managedDepartment', 'permissions'])->findOrFail($id);
-        return response()->json($user);
-    }
-
-    // Store a new user
+    /**
+     * Store a newly created user in storage.
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,user',
-            'department_id' => 'nullable|exists:departments,id',
-            'phone' => 'nullable|string|max:20',
-            'status' => 'required|in:active,inactive',
+    $request->validate([
+        'name'          => 'required|string|max:255',
+        'email'         => 'required|string|email|max:255|unique:users,email',
+        'password'      => 'required|string|min:6|confirmed',
+        'role'          => 'required|string|exists:roles,name',
+        'department_id' => 'nullable|exists:departments,id',
+        'phone'         => 'nullable|string|max:20',
+        'status'        => 'nullable|in:active,inactive',
+        'permissions'   => 'array',
+    ]);
+
+    $user = User::create([
+        'name'          => $request->name,
+        'email'         => $request->email,
+        'role'          => $request->role,
+        'department_id' => $request->department_id,
+        'phone'         => $request->phone,
+        'status'        => $request->status,
+        'password'      => Hash::make($request->password),
+    ]);
+
+    $user->assignRole($request->role);
+    $user->syncPermissions($request->permissions ?? []);
+
+    return redirect()->route('users.index')
+        ->with('success', 'User created successfully with assigned permissions.');
+}
+
+    /**
+     * Show the form for editing the specified user.
+     */
+    public function edit(User $user)
+    {
+    $roles = Role::all();
+    $permissions = Permission::all();
+    $departments = Department::all();
+    return view('users.edit', compact('user', 'roles', 'permissions', 'departments'));
+}
+
+    /**
+     * Update the specified user in storage.
+     */
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password'      => 'nullable|string|min:6|confirmed',
+            'role'          => 'required|string|exists:roles,name',
+            'department_id' => 'nullable|exists:departments,id',  // Add validation
+            'phone'         => 'nullable|string|max:20',          // Optional validation for phone
+            'status'        => 'nullable|in:active,inactive',     // Add status validation
+            'permissions'   => 'array',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-        
-        // Remove password_confirmation from the data to be saved
-        unset($validated['password_confirmation']);
-
-        $user = User::create($validated);
-
-        // Assign default permissions based on role
-        if ($validated['role'] === 'admin') {
-            $user->givePermissionTo(Permission::all());
-        } else {
-            $user->givePermissionTo([
-                'view_inventory',
-                'view_departments',
-                'view_reports'
-            ]);
-        }
-
-        return redirect()->route('users.index')->with('success', 'User created successfully!');
-    }
-
-    // Update a user
-    public function update(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'email' => ['sometimes', 'email', Rule::unique('users')->ignore($user->id)],
-            'password' => 'sometimes|nullable|string|min:8|confirmed',
-            'role' => 'sometimes|in:admin,user',
-            'department_id' => 'nullable|exists:departments,id',
-            'phone' => 'nullable|string|max:20',
-            'status' => 'sometimes|in:active,inactive',
+        $user->update([
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'role'          => $request->role,
+            'department_id' => $request->department_id,  // Add this
+            'phone'         => $request->phone,          // Add this
+            'status'        => $request->status,         // Add this
+            'password'      => $request->filled('password') ? Hash::make($request->password) : $user->password,
         ]);
 
-        if (isset($validated['password']) && !empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
-        
-        // Remove password_confirmation from the data to be saved
-        unset($validated['password_confirmation']);
+        // Update role
+        $user->syncRoles([$request->role]);
 
-        $user->update($validated);
+        // Update permissions
+        $user->syncPermissions($request->permissions ?? []);
 
-        // Update permissions if role changed
-        if (isset($validated['role'])) {
-            if ($validated['role'] === 'admin') {
-                $user->syncPermissions(Permission::all());
-            } else {
-                $user->syncPermissions([
-                    'view_inventory',
-                    'view_departments', 
-                    'view_reports'
-                ]);
-            }
-        }
-
-        if ($request->expectsJson()) {
-            return response()->json($user);
-        }
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully!');
+        return redirect()->route('users.index')
+            ->with('success', 'User and permissions updated successfully.');
     }
 
-    // Delete a user
-    public function destroy($id)
+//Update Permissions
+public function updatePermissions(Request $request, User $user)
+{
+    $request->validate([
+        'permissions' => 'array'
+    ]);
+
+    // Sync the user's permissions
+    $user->syncPermissions($request->permissions ?? []);
+
+    return back()->with('success', 'Permissions updated successfully.');
+}
+
+
+//Get user permissions
+public function getPermissions(User $user)
+{
+    return response()->json([
+        'permissions' => $user->permissions->pluck('name')
+    ]);
+}
+    /**
+     * Remove the specified user from storage.
+     */
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
         $user->delete();
-
-        return redirect()->back()->with('success', 'User deleted successfully.');
-    }
-
-    // Manage user permissions
-    public function updatePermissions(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        // Validate the incoming permissions array
-        $validated = $request->validate([
-            'permissions' => 'array|required',
-            'permissions.*' => 'string|exists:permissions,name'
-        ]);
-
-        // Sync permissions for the user
-        $user->syncPermissions($validated['permissions']);
-        dd($user);
-        // return redirect()->back()->with('success', 'Permissions updated successfully for ' . $user->name);
-    }
-
-    // Get user permissions (for loading in modal)
-    public function getPermissions($id)
-    {
-        $user = User::with('permissions')->findOrFail($id);
-        return response()->json([
-            'user' => $user,
-            'permissions' => $user->permissions->pluck('name')->toArray(),
-            'all_permissions' => Permission::all()
-        ]);
-    }
-
-    // (Optional) Get users by department
-    public function byDepartment($departmentId)
-    {
-        $users = User::where('department_id', $departmentId)->get();
-        return response()->json($users);
-    }
-
-    // Update last login timestamp
-    public function updateLastLogin($id)
-    {
-        $user = User::findOrFail($id);
-        $user->update(['last_login' => now()]);
-        
-        return response()->json(['message' => 'Last login updated successfully']);
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

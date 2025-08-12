@@ -2,35 +2,71 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-public function run(): void
-{
-    // User::factory(10)->create();
+    public function run(): void
+    {
+        // Create a test user
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password')
+        ]);
 
-    User::factory()->create([
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-    ]);
+        // Permissions exactly as in your form
+        $permissions = [
+            // Inventory
+            'view_inventory',
+            'create_inventory',
+            'edit_inventory',
+            'delete_inventory',
 
-    $permissions = ['view items', 'create items', 'edit items', 'delete items'];
+            // Items
+            'view_item',
+            'create_item',
+            'edit_item',
+            'delete_item',
 
-    foreach ($permissions as $permission) {
-        Permission::firstOrCreate(['name' => $permission]);
+            // Users
+            'create_user',
+            'edit_user',
+            'delete_user',
+            'view_user',
+
+            // Departments
+            'view_departments',
+            'create_departments',
+            'edit_departments',
+            'delete_departments',
+
+            // Roles
+            'view_roles',
+            'create_roles',
+            'edit_roles',
+            'delete_roles',
+
+            // Permissions
+            'view_permissions',
+            'assign_permissions',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate([
+                'name' => $permission,
+                'guard_name' => 'web'
+            ]);
+        }
+
+        // Roles
+        $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $userRole  = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
+
+        // Give all permissions to admin
+        $adminRole->syncPermissions(Permission::all());
     }
-
-    $adminRole = Role::firstOrCreate(['name' => 'admin']);
-    $adminRole->syncPermissions(Permission::all());
-
-    $userRole = Role::firstOrCreate(['name' => 'user']);
-}
 }

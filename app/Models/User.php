@@ -17,6 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $guard_name = 'web'; // ✅ Important for Spatie
     protected $fillable = [
         'name',
         'email',

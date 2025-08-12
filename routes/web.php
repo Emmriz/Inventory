@@ -54,14 +54,18 @@ Route::middleware(['auth'])->group(function () {
    // Users routes
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
-Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/users/department/{departmentId}', [UserController::class, 'byDepartment'])->name('users.by_department');
-Route::post('/users/{id}/last-login', [UserController::class, 'updateLastLogin'])->name('users.update_last_login');
+Route::post('/users/{user}/last-login', [UserController::class, 'updateLastLogin'])->name('users.update_last_login');
 // Route::put('/users/{id}/permissions', [UserController::class, 'updatePermissions'])->name('users.update_permissions');
-Route::put('/users/{id}/permissions', [UserController::class, 'updatePermissions'])->name('users.permissions');
-Route::get('/users/{id}/permissions', [UserController::class, 'getPermissions'])->name('users.getPermissions');
+Route::put('/users/{user}/permissions', [UserController::class, 'updatePermissions'])->name('users.permissions');
+Route::get('/users/{user}/permissions', [UserController::class, 'getPermissions'])->name('users.getPermissions');
+Route::get('/users/{user}/permissions', [UserController::class, 'getPermissions']);
+Route::post('/users/{user}/permissions', [UserController::class, 'updatePermissions']);
+
    
 });
 
