@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
 {
-    $users = User::with('roles', 'permissions')->paginate(7);
+    $users = User::with('roles', 'permissions')->paginate(8);
     $departments = Department::all();  // Fetch departments
     return view('users.index', compact('users', 'departments'));
 }
