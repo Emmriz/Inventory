@@ -6,7 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HodController;
 use App\Http\Controllers\MemberController;
@@ -100,8 +100,11 @@ Route::middleware(['auth','admin'])->group(function () {
 // Settings routes - admin only
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+   Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+Route::post('/settings/theme-toggle', [SettingsController::class, 'toggleTheme'])->name('theme.toggle');
+Route::post('/settings/accent', [SettingsController::class, 'setAccent'])->name('accent.set');
+Route::post('/settings/accent/reset', [SettingsController::class, 'resetAccent'])->name('accent.reset');
+
 });
 
 // Profile- accessible by all authenticated users
