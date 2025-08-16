@@ -67,12 +67,12 @@ class ReportController extends Controller
 
     // Download departments report as PDF
     public function downloadDepartmentsPDF()
-    {
-        $departments = Department::withCount('members', 'items')->get();
-        $pdf = PDF::loadView('reports.departments_pdf', compact('departments'));
+{
+    $departments = Department::withCount('members', 'items')->get();
 
-        return $pdf->download('departments_report.pdf');
-    }
+    $pdf = Pdf::loadView('reports.departments_pdf', compact('departments'));
+    return $pdf->download('departments_report.pdf');
+}
 
     // Show members report
     public function membersReport()

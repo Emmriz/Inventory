@@ -16,7 +16,7 @@
     <form action="{{ route('reports.departments') }}" method="GET" class="flex gap-4 mb-4 mt-4">
 
     <button type="submit" class="px-4 py-2 bg-blue-900 text-white rounded">Filter</button>
-    <a href="{{ route('reports.items.pdf', request()->all()) }}" class="px-4 py-2 bg-red-600 text-white rounded">Download PDF</a>
+    <a href="{{ route('reports.departments.pdf', request()->all()) }}" class="px-4 py-2 bg-red-600 text-white rounded">Download PDF</a>
     </form>
 
     
