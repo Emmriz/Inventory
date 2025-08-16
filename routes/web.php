@@ -70,11 +70,19 @@ Route::post('/users/{user}/permissions', [UserController::class, 'updatePermissi
 });
 
 // Reports routes - accessible by all authenticated users
-Route::middleware(['auth','admin'])->group(function () {
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports/inventory', [ReportController::class, 'inventory'])->name('reports.inventory');
-    Route::get('/reports/low-stock', [ReportController::class, 'lowStock'])->name('reports.low-stock');
-    Route::get('/reports/department/{department}', [ReportController::class, 'department'])->name('reports.department');
+Route::middleware(['auth','admin'])->prefix('reports')->group(function () {
+    Route::get('/', [ReportController::class, 'index'])->name('reports.index');
+
+    // Items reports
+    Route::get('/items', [ReportController::class, 'itemsReport'])->name('reports.items');
+    Route::get('/items/pdf', [ReportController::class, 'downloadItemsPDF'])->name('reports.items.pdf');
+
+    // Departments reports
+    Route::get('/departments', [ReportController::class, 'departmentsReport'])->name('reports.departments');
+    Route::get('/departments/pdf', [ReportController::class, 'downloadDepartmentsPDF'])->name('reports.departments.pdf');
+
+    Route::get('/members', [ReportController::class, 'membersReport'])->name('reports.members');
+    Route::get('/members/pdf', [ReportController::class, 'downloadMembersPDF'])->name('reports.members.pdf');
 });
 
 // Borrowings routes (Admin only)
