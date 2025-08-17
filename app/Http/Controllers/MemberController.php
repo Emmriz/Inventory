@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 class MemberController extends Controller
 {
 
-    public function show($id)
+public function show($id)
 {
-    $member = Member::findOrFail($id);
+    $member = Member::with('department')->findOrFail($id);
     return response()->json($member);
 }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -51,6 +53,8 @@ class MemberController extends Controller
 
         return redirect()->back()->with('success', 'Member updated successfully.');
     }
+
+    
 
     /**
      * Remove the specified resource from storage.

@@ -23,9 +23,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-// Members routes
-    Route::resource('members', MemberController::class)->only(['store', 'update', 'destroy']);
-
 // Items routes - accessible by all authenticated users
 Route::middleware(['auth'])->group(function () {
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');
@@ -93,8 +90,10 @@ Route::middleware(['auth','admin'])->prefix('reports')->group(function () {
     });
     
     // Borrowings routes (Admin only)
-     Route::middleware('admin')->group(function () {
+     Route::middleware('auth')->group(function () {
         Route::get('/members/{id}', [MemberController::class, 'show']);
+        // Members routes
+        Route::resource('members', MemberController::class)->only(['store', 'update', 'destroy']);
     });
 
     Route::middleware('guest')->group(function () {
