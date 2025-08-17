@@ -8,9 +8,15 @@
         <h1 class="text-3xl font-bold text-gray-900">
             Welcome back, {{ auth()->user()->name }}
         </h1>
-        <button class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
-            Quick Add Item
-        </button>
+        <!-- <button class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium">
+            Generate Report
+        </button> -->
+
+        <a href="{{ route('reports.index') }}" 
+   class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium inline-block">
+    Generate Report
+</a>
+
     </div>
 
     <!-- Stats Grid -->
@@ -19,9 +25,9 @@
             <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">Total Items</p>
+                        <p class="text-sm font-medium text-gray-600 uppercase">Items</p>
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $totalItems ?? '1,247' }}</p>
-                        <p class="text-sm mt-2 text-green-600">↑ 12% from last month</p>
+                        <p class="text-sm mt-2 text-blue-900">Number of Items</p>
                     </div>
                     <div class="text-blue-800">
                         <i class="fas fa-box text-2xl"></i>
@@ -32,9 +38,9 @@
             <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">Active Users</p>
+                        <p class="text-sm font-medium text-gray-600 uppercase">Active Users</p>
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $activeUsers ?? '34' }}</p>
-                        <p class="text-sm mt-2 text-green-600">↑ 3% from last month</p>
+                        <p class="text-sm mt-2 text-blue-900">Number of Departments Users</p>
                     </div>
                     <div class="text-blue-800">
                         <i class="fas fa-users text-2xl"></i>
@@ -45,9 +51,9 @@
             <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">Departments</p>
+                        <p class="text-sm font-medium text-gray-600 uppercase">Departments</p>
                         <p class="text-3xl font-bold text-gray-900 mt-2">{{ $departments ?? '8' }}</p>
-                        <p class="text-sm mt-2 text-green-600">↑ 0% from last month</p>
+                        <p class="text-sm mt-2 text-blue-900">Number of Departments</p>
                     </div>
                     <div class="text-blue-800">
                         <i class="fas fa-building text-2xl"></i>
@@ -58,12 +64,12 @@
             <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">Low Stock Items</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">{{ $lowStockItems ?? '23' }}</p>
-                        <p class="text-sm mt-2 text-red-600">↓ 5% from last month</p>
+                        <p class="text-sm font-medium text-gray-600 uppercase">Workers Pool</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">{{ $totalMembers }}</p>
+                        <p class="text-sm mt-2 text-blue-900">Number of Workers</p>
                     </div>
                     <div class="text-blue-800">
-                        <i class="fas fa-exclamation-triangle text-2xl"></i>
+                        <i class="fas fa-arrows-alt text-2xl"></i>
                     </div>
                 </div>
             </div>
