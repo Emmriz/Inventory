@@ -12,7 +12,7 @@
     </div>
 
     <!-- Department filter & search -->
-    <div class="space-y-2 border border-gray-400 pl-4 rounded-lg">
+    <div class="space-y-2 border border-gray-400 pl-4 pr-4 rounded-lg">
         <div class="flex gap-4 mb-4 mt-4">
             <select id="departmentFilter" class="border p-2 rounded">
                 <option value="">All Departments</option>

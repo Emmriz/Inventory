@@ -44,11 +44,14 @@
 </head>
 <body>
     <!-- Header with logo + title -->
-    <div class="header">
-        <img src="{{ public_path('images/church_logo.png') }}" alt="Church Logo">
-        <h1>GGCC INVENTORY</h1>
-        <h2>Departments Report</h2>
+    <div class="header">       
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ public_path('newlogo.png') }}" alt="GGCC Logo" height="250">
+            <h1>GGCC INVENTORY</h1>
+             <h2>Departments Report</h2>
+        </div>
     </div>
+        
 
     <!-- Departments Table -->
     <table>
