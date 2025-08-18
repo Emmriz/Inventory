@@ -55,25 +55,27 @@ class DashboardController extends Controller
             'activeUsers' => User::where('role', 'user')->count(),
             'departments' => Department::count(),
             'totalMembers' => Member::count(), // ✅ Added
-            'lowStockItems' => Item::where('status', 'low_stock')->count(),
-            'recentTransactionsList' => InventoryTransaction::with('item')
-                ->latest()->take(4)->get(),
-            'lowStockItemsList' => Item::where('status', 'low_stock')->take(3)->get(),
+            // 'lowStockItems' => Item::where('status', 'low_stock')->count(),
+            // 'recentTransactionsList' => InventoryTransaction::with('item')
+            //     ->latest()->take(4)->get(),
+            // 'lowStockItemsList' => Item::where('status', 'low_stock')->take(3)->get(),
         ];
     } else {
         $data = [
-            'departmentItems' => Item::where('department_id', $user->department_id)->count(),
-            'lowStockAlerts' => Item::where('department_id', $user->department_id)
-                ->where('status', 'low_stock')->count(),
-            'recentTransactions' => InventoryTransaction::whereHas('item', function($q) use ($user) {
-                $q->where('department_id', $user->department_id);
-            })->count(),
-            'recentTransactionsList' => InventoryTransaction::with('item')
-                ->whereHas('item', function($q) use ($user) {
-                    $q->where('department_id', $user->department_id);
-                })->latest()->take(4)->get(),
-            'lowStockItemsList' => Item::where('department_id', $user->department_id)
-                ->where('status', 'low_stock')->take(3)->get(),
+            'departments' => Department::count(),
+            // 'departmentItems' => Item::where('department_id', $user->department_id)->count(),
+            'totalItems' => Item::count(),
+           
+            // 'lowStockAlerts' => Item::where('department_id', $user->department_id)
+            //     ->where('status', 'low_stock')->count(),
+            // 'recentTransactions' => InventoryTransaction::whereHas('item', function($q) use ($user) {
+            //     $q->where('department_id', $user->department_id);
+            // })->count(),
+            // 'recentTransactionsList' => InventoryTransaction::with('item')
+            //     ->whereHas('item', function($q) use ($user) {
+            //         $q->where('department_id', $user->department_id);
+            //     })->latest()->take(4)->get(),
+            
         ];
     }
     

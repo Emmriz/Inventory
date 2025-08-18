@@ -79,9 +79,11 @@
             <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">My Department Items</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">{{ $departmentItems ?? '156' }}</p>
-                        <p class="text-sm mt-2 text-green-600">↑ 8% from last month</p>
+                        <div>
+                        <p class="text-sm font-medium text-gray-600 uppercase">Departments</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">{{ $departments ?? '8' }}</p>
+                        <p class="text-sm mt-2 text-blue-900">Number of Departments</p>
+                    </div>
                     </div>
                     <div class="text-blue-500">
                         <i class="fas fa-box text-2xl"></i>
@@ -92,17 +94,18 @@
             <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">Low Stock Alerts</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">{{ $lowStockAlerts ?? '5' }}</p>
-                        <p class="text-sm mt-2 text-red-600">↓ 2% from last month</p>
+                        <p class="text-sm font-medium text-gray-600 uppercase">Items</p>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">{{ $totalItems ?? '1,247' }}</p>
+                        <p class="text-sm mt-2 text-blue-900">Number of Items</p>
                     </div>
-                    <div class="text-blue-500">
-                        <i class="fas fa-exclamation-triangle text-2xl"></i>
+                    <div class="text-blue-800">
+                        <i class="fas fa-box text-2xl"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm border">
+            
+            <!-- <div class="bg-white p-6 rounded-lg shadow-sm border">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Recent Transactions</p>
@@ -113,7 +116,7 @@
                         <i class="fas fa-users text-2xl"></i>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     @endif
 
