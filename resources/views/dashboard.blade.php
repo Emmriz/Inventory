@@ -124,6 +124,10 @@
         </div>
     @endif
 
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">UPCOMING CHURCH EVENTS</h3>
+    {{-- Calendar --}}
+    <div id="calendar" class="bg-white p-4 rounded shadow mb-8"></div>
+    </div>
     <!-- Recent Activity -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white p-6 rounded-lg shadow-sm border">
@@ -158,5 +162,40 @@
             </div>
         </div>
     </div>
-</div>
+    <!-- Calendar -->
+     
+   
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        events: "{{ route('events.get') }}",
+
+        dateClick: function(info) {
+            openModal();
+            document.getElementById('start_date').value = info.dateStr;
+            document.getElementById('end_date').value = info.dateStr;
+        },
+
+        eventClick: function(info) {
+            openModal();
+            document.getElementById('modalTitle').innerText = "Edit Event";
+            document.getElementById('event_id').value = info.event.id;
+            document.getElementById('title').value = info.event.title;
+            document.getElementById('start_date').value = info.event.startStr.split("T")[0];
+            document.getElementById('end_date').value = info.event.endStr ? info.event.endStr.split("T")[0] : '';
+        }
+    });
+
+    calendar.render();
+
+});
+
+    </script>
 @endsection
