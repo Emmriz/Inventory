@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HodController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BorrowingController;
@@ -119,6 +120,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+//Calendar and Events routes
+Route::prefix('events')->name('events.')->middleware('admin')->group(function () {
+    Route::get('/', [EventController::class, 'index'])->name('index');
+    Route::get('/list', [EventController::class, 'getEvents'])->name('get'); // fetch events for calendar
+    
+    // Normal form routes
+    Route::post('/', [EventController::class, 'store'])->name('store');
+    Route::put('/{event}', [EventController::class, 'update'])->name('update');
+    Route::delete('/{event}', [EventController::class, 'destroy'])->name('destroy');
+
+    // AJAX routes
+    Route::post('/store-ajax', [EventController::class, 'storeAjax'])->name('store.ajax');
+    Route::put('/{event}/update-ajax', [EventController::class, 'updateAjax'])->name('update.ajax');
+    Route::delete('/{event}/delete-ajax', [EventController::class, 'destroyAjax'])->name('destroy.ajax');
 });
 
 require __DIR__.'/auth.php';

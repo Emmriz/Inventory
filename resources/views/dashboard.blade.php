@@ -16,6 +16,10 @@
    class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium inline-block">
     Generate Report
 </a>
+        <a href="{{ route('events.index') }}" 
+   class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-md font-medium inline-block">
+    Register Event
+</a>
 
     </div>
 

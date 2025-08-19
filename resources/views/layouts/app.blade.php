@@ -178,6 +178,7 @@
             <!-- Page Content -->
             <main class="flex-1 overflow-auto p-6">
                 @yield('content')
+                @yield('scripts')
             </main>
         </div>
     </div>
