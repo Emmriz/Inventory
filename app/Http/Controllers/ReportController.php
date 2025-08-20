@@ -33,7 +33,7 @@ class ReportController extends Controller
             $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
         }
 
-        $items = $query->get();
+        $items = $query->paginate(10);
         $departments = Department::all();
 
         return view('reports.items', compact('items', 'departments'));

@@ -48,7 +48,7 @@
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="{{ public_path('newlogo.png') }}" alt="GGCC Logo" height="250">
             <h1>GGCC INVENTORY</h1>
-             <h2>Departments Report</h2>
+             <h2>Members Report</h2>
         </div>
     </div>
 
@@ -56,6 +56,7 @@
     <table>
         <thead>
             <tr>
+                <th>S/N</th>
                 <th>Name</th>
                 <th>Department</th>
                 <th>Email</th>
@@ -64,8 +65,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($members as $member)
+            @foreach($members as $index => $member)
             <tr>
+                <td>{{ $index + 1 }}</td>
                 <td>{{ $member->name }}</td>
                 <td>{{ $member->department->name ?? 'N/A' }}</td>
                 <td>{{ $member->email }}</td>

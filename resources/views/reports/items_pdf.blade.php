@@ -48,7 +48,7 @@
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="{{ public_path('newlogo.png') }}" alt="GGCC Logo" height="250">
             <h1>GGCC INVENTORY</h1>
-             <h2>Departments Report</h2>
+            <h2>Items Report</h2>
         </div>
     </div>
 
@@ -56,6 +56,7 @@
     <table>
         <thead>
             <tr>
+                <th>S/N</th>
                 <th>Item Name</th>
                 <th>SKU</th>
                 <th>Department</th>
@@ -66,6 +67,7 @@
         <tbody>
             @foreach($items as $item)
             <tr>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->sku }}</td>
                 <td>{{ $item->department->name ?? 'N/A' }}</td>

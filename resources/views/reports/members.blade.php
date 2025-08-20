@@ -31,6 +31,7 @@
     <table class="min-w-full divide-y divide-gray-200 text-center mt-6">
         <thead class="bg-gray-50">
             <tr>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">S/N</th>
                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
@@ -39,8 +40,11 @@
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200" id="membersTableBody">
-            @forelse($members as $member)
+            @forelse($members as $index => $member)
                 <tr class="member-row" data-department="{{ $member->department_id }}" data-name="{{ strtolower($member->name) }}" data-email="{{ strtolower($member->email) }}">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {{ ($members->currentPage() - 1) * $members->perPage() + $index + 1 }}
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $member->name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $member->department->name ?? 'N/A' }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $member->phone_number }}</td>
@@ -49,15 +53,20 @@
                 </tr>
             @empty
                 <tr id="noMembersRow">
-                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">No members found.</td>
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">No members found.</td>
                 </tr>
             @endforelse
             <!-- Hidden row for filtered “no matches” -->
             <tr id="noMembersFiltered" style="display: none;">
-                <td colspan="5" class="px-6 py-4 text-center text-gray-500">No matching members found.</td>
+                <td colspan="6" class="px-6 py-4 text-center text-gray-500">No matching members found.</td>
             </tr>
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $members->links('pagination::tailwind') }}
+    </div>
 </div>
 
 <script>

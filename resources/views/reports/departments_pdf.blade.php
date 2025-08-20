@@ -48,23 +48,24 @@
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="{{ public_path('newlogo.png') }}" alt="GGCC Logo" height="250">
             <h1>GGCC INVENTORY</h1>
-             <h2>Departments Report</h2>
+            <h2>Departments Report</h2>
         </div>
     </div>
-        
 
     <!-- Departments Table -->
     <table>
         <thead>
             <tr>
+                <th>S/N</th>
                 <th>Department Name</th>
                 <th>Total Members</th>
                 <th>Total Items</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($departments as $department)
+            @foreach($departments as $index => $department)
             <tr>
+                <td>{{ $index + 1 }}</td>
                 <td>{{ $department->name }}</td>
                 <td>{{ $department->members_count }}</td>
                 <td>{{ $department->items_count }}</td>

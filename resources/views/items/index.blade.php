@@ -57,6 +57,8 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
+                    <!-- S/N COLUMN -->
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">S/N</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item Name</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
@@ -66,8 +68,13 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200" id="itemsTableBody">
-                @forelse($items ?? [] as $item)
+                @forelse($items as $item)
                     <tr class="item-row" data-status="{{ $item->status }}" data-name="{{ strtolower($item->name) }}" data-sku="{{ strtolower($item->sku) }}">
+                        <!-- S/N CELL (continuous across pages) -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $items->firstItem() + $loop->index }}
+                        </td>
+
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <i class="fas fa-box mr-2 text-gray-400"></i>
@@ -101,12 +108,26 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No items found.</td>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">No items found.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
+    {{-- Tailwind Pagination + summary --}}
+    @if ($items->hasPages())
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4">
+            <div class="text-sm text-gray-600">
+                Showing <span class="font-semibold">{{ $items->firstItem() }}</span>
+                to <span class="font-semibold">{{ $items->lastItem() }}</span>
+                of <span class="font-semibold">{{ $items->total() }}</span> results
+            </div>
+            <div>
+                {{ $items->onEachSide(1)->links() }}
+            </div>
+        </div>
+    @endif
 </div>
 
 <!-- Add Item Modal -->
@@ -291,21 +312,15 @@ function openEditModal(itemId) {
     fetch(`/items/${itemId}`)
         .then(response => response.json())
         .then(item => {
-            console.log('Fetched item data:', item);
-            
             document.getElementById('edit_name').value = item.name;
             document.getElementById('edit_sku').value = item.sku;
             document.getElementById('edit_department_id').value = item.department_id || '';
             document.getElementById('edit_quantity').value = item.quantity;
             document.getElementById('edit_status').value = item.status;
             document.getElementById('editItemForm').action = `/items/${item.id}`;
-            
             openModal('editItemModal');
         })
-        .catch(error => {
-            console.error('Error fetching item:', error);
-            alert('Failed to load item information');
-        });
+        .catch(() => alert('Failed to load item information'));
 }
 
 // Delete modal function
@@ -328,7 +343,7 @@ setTimeout(function() {
     if (errorMessage) errorMessage.style.display = 'none';
 }, 5000);
 
-// Search and filter functionality
+// Search and filter functionality (client-side for current page)
 document.getElementById('searchInput').addEventListener('input', function() {
     const searchTerm = this.value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
@@ -343,20 +358,13 @@ document.getElementById('statusFilter').addEventListener('change', function() {
 
 function filterItems(searchTerm, statusFilter) {
     const rows = document.querySelectorAll('.item-row');
-    
     rows.forEach(row => {
         const name = row.getAttribute('data-name');
         const sku = row.getAttribute('data-sku');
         const status = row.getAttribute('data-status');
-        
         const matchesSearch = name.includes(searchTerm) || sku.includes(searchTerm);
         const matchesStatus = !statusFilter || status === statusFilter;
-        
-        if (matchesSearch && matchesStatus) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
     });
 }
 
@@ -365,9 +373,7 @@ window.onclick = function(event) {
     const modals = ['addItemModal', 'editItemModal', 'deleteItemModal'];
     modals.forEach(function(modalId) {
         const modal = document.getElementById(modalId);
-        if (event.target === modal) {
-            closeModal(modalId);
-        }
+        if (event.target === modal) closeModal(modalId);
     });
 }
 </script>

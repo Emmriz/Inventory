@@ -15,7 +15,7 @@ class BorrowingController extends Controller
     {
         $borrowings = Borrowing::with(['item', 'department'])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
         
         $departments = Department::all();
         

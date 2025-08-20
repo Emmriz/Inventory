@@ -46,6 +46,7 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">S/N</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Borrower</th>
@@ -58,6 +59,7 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($borrowings ?? [] as $borrowing)
                         <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div>
                                     <div class="font-medium text-gray-900">{{ $borrowing->item->name ?? 'N/A' }}</div>
