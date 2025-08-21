@@ -129,9 +129,9 @@
     <div id="calendar" class="bg-white p-4 rounded shadow mb-8"></div>
     </div>
     <!-- Recent Activity -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-7">
         <div class="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Transactions</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4"></h3>
             <div class="space-y-4">
                
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
@@ -147,7 +147,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Low Stock Alerts</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-4"></h3>
             <div class="space-y-4">
                 
                     <div class="flex items-center justify-between p-3 bg-red-50 rounded border border-red-200">
